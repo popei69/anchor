@@ -17,7 +17,7 @@ extension DomainData {
     var aasaUrl: URL? {
 
         var urlEntry = url
-        if !urlString.hasPrefix("https://") || urlString.hasPrefix("http://") {
+        if !url.hasPrefix("https://") || url.hasPrefix("http://") {
             urlEntry = "https://" + urlEntry
         }
         
