@@ -12,6 +12,29 @@ struct DomainData: Content {
     let url: String
 }
 
+extension DomainData { 
+    
+    var aasaUrl: URL? {
+
+        var urlEntry = url
+        if !urlString.hasPrefix("https://") || urlString.hasPrefix("http://") {
+            urlEntry = "https://" + urlEntry
+        }
+        
+        guard let host = URL(string: urlEntry)?.host else {
+            print("No host")
+            return nil
+        }
+        
+        var newComponents = URLComponents()
+        newComponents.host = host
+        newComponents.scheme = "https"
+        newComponents.path = "/apple-app-site-association"
+        
+        return newComponents.url
+    }
+}
+
 // outputs
 struct Domain: Codable {
     let applinks: AppDomain 
