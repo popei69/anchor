@@ -2,21 +2,20 @@ import Leaf
 import Vapor
 
 /// Called before your application initializes.
-public func configure(_ config: inout Config, _ env: inout Environment, _ services: inout Services) throws {
-    // Register providers first
-    try services.register(LeafProvider())
+public func configure(_ app: Application) throws {
 
-    // Register routes to the router
-    let router = EngineRouter.default()
-    try routes(router)
-    services.register(router, as: Router.self)
-    
-    // Use Leaf for rendering views
-    config.prefer(LeafRenderer.self, for: ViewRenderer.self)
+    // Serves files from `Public/` directory
+    app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
-    // Register middleware
-    var middlewares = MiddlewareConfig() // Create _empty_ middleware config
-    middlewares.use(FileMiddleware.self) // Serves files from `Public/` directory
-    middlewares.use(ErrorMiddleware.self) // Catches errors and converts to HTTP response
-    services.register(middlewares)
+    // Configure Leaf
+    app.views.use(.leaf)
+    app.leaf.cache.isEnabled = app.environment.isRelease
+
+    // Configure SQLite database
+//    app.databases.use(.sqlite(.file("db.sqlite")), as: .sqlite)
+
+    // Configure migrations
+//    app.migrations.add(CreateTodo())
+
+    try routes(app)
 }

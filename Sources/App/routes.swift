@@ -1,19 +1,23 @@
 import Vapor
 
 /// Register your application's routes here.
-public func routes(_ router: Router) throws {
-    // "It works" page
-    router.get { req in
-        return try req.view().render("welcome")
+func routes(_ app: Application) throws {
+
+    app.get { req in
+//        req.view.render("index", [
+//            "title": "Hi",
+//            "body": "Hello world!"
+//        ])
+        req.view.render("welcome")
     }
+    
     
     // Says hello
-    router.get("hello", String.parameter) { req -> Future<View> in
-        return try req.view().render("hello", [
-            "name": req.parameters.next(String.self)
-        ])
+    app.get("hello", ":name") { req -> String in
+        let name = req.parameters.get("name")!
+        return "Hello, \(name)!"
     }
     
-    let domainController = DomainController()
-    router.post(DomainData.self, at: "domain", use: domainController.parse)
+//    let domainController = DomainController()
+//    router.post(DomainData.self, at: "domain", use: domainController.parse)
 }
