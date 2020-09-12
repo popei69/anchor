@@ -18,6 +18,5 @@ func routes(_ app: Application) throws {
         return "Hello, \(name)!"
     }
     
-//    let domainController = DomainController()
-//    router.post(DomainData.self, at: "domain", use: domainController.parse)
+    try app.register(collection: DomainController())
 }
