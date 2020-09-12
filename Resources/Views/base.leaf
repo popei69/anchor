@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>#get(title)</title>
-	<link rel="stylesheet" href="/styles/app.css">
-</head>
-<body>
-    #get(body)
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Anchor - Universal link to mobile app done right</title>
+    <link rel="stylesheet" href="/styles/app.css">
+    <meta name="description" content="Anchor is a tool to verify your domain is configured to open your mobile app">
+  </head>
+  <body>
+    <main>
+        #import("body")
+    </main>
+  </body>
 </html>

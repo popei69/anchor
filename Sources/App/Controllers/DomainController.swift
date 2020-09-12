@@ -12,17 +12,9 @@ import Lighthouse
 /// Controls basic CRUD operations on `Domain`s.
 struct DomainController: RouteCollection {
     
-    
     func boot(routes: RoutesBuilder) throws {
         let todos = routes.grouped("domains")
-//        todos.get(use: index)
         todos.post(use: parse)
-
-//        todos.group(":id") { todo in
-//            todo.get(use: show)
-//            todo.put(use: update)
-//            todo.delete(use: delete)
-//        }
     }
     
     private func handle(_ query: String, eventLoop: EventLoop) -> EventLoopFuture<Domain> {
@@ -88,6 +80,17 @@ struct DomainController: RouteCollection {
             .flatMapErrorThrowing { error -> Output in 
                 return Output(success: false, message: error.outputMessage)
             }
+    }
+    
+    func render(_ req: Request) -> EventLoopFuture<View> {
+        
+        do {
+            return try parse(req)
+                .flatMap { req.view.render("index", $0) }
+        } catch {
+            let output = Output(success: false, message: error.outputMessage)
+            return req.view.render("index", output)
+        }   
     }
 }
 
