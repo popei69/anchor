@@ -3,13 +3,30 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Anchor - Universal link to mobile app done right</title>
-    <link rel="stylesheet" href="/styles/app.css">
+    <title>Anchor - Universal link for mobile apps done right</title>
+    <meta name="author" content="Benoit Pasquier">
     <meta name="description" content="Anchor is a tool to verify your domain is configured to open your mobile app">
+    <link href="/styles/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/app.css">
   </head>
-  <body>
+  <body class="bg-light">
     <main>
         #import("body")
     </main>
+
+    <!-- Footer -->
+    <footer class="footer bg-light">
+      <div class="container">
+        <div class="row">
+            <div class="col-xl-9 mx-auto text-center">
+            <p class="text-muted small mb-4 mb-lg-0">&copy; <a href="https://benoitpasquier.com">Benoit Pasquier</a> 2020. All Rights Reserved.
+            </p>
+            <p class="text-muted small mb-4 mb-lg-0">
+                Photo by <a href="https://unsplash.com/@mmckee30">Mitch Mckee</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
