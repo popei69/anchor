@@ -75,7 +75,8 @@ struct DomainController: RouteCollection {
         
         return handle(input.query, eventLoop: req.eventLoop)
             .map{ domain -> Output in
-                return Output(success: true, message: "Some apps can be open from this domain ✌️")
+                let bundles = domain.applinks.details.map { $0.appId }
+                return Output(success: true, message: domain.outputMessage, bundles: bundles)
             }
             .flatMapErrorThrowing { error -> Output in 
                 return Output(success: false, message: error.outputMessage)
@@ -101,8 +102,32 @@ struct Input: Content {
 struct Output: Content {
     let success: Bool
     let message: String
-    
-    
+    let bundles: [String]?
+}
+
+extension Output {
+    init(success: Bool, message: String) {
+        self.init(success: success, message: message, bundles: nil)
+    }
+}
+
+extension Domain {
+    var outputMessage: String {
+        let appsCount = applinks.details.count
+        
+        if appsCount == 0 {
+            return "The domain is configured but no app listed? 🤔"
+        }
+        
+        var content = ""
+        if appsCount == 1 {
+            content = "1 app"
+        } else {
+            content = "\(appsCount) apps"
+        }
+        
+        return "\(content) are associated to this domain ✌️"
+    }
 }
 
 extension Error {

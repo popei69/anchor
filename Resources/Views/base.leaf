@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Anchor - Universal link for mobile apps done right</title>
+    <title>Lighthouse - Testing domain for universal links to mobile apps</title>
     <meta name="author" content="Benoit Pasquier">
-    <meta name="description" content="Anchor is a tool to verify your domain is configured to open your mobile app">
+    <meta name="description" content="Lighthouse is a tool to verify your domain is configured to open your mobile app">
     <link href="/styles/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/styles/app.css">
   </head>

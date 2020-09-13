@@ -6,13 +6,13 @@
           <div class="row">
             <div class="col-xl-8 mx-auto">
               <h1 class="mb-5">Testing Universal Links in Seconds</h1>
-              <p class="mb-5">Welcome to <strong>Lighthouse</strong>, a simple tool to look up and test domain configuration to ensure your link lands to the right mobile app.</p>
+              <p class="mb-5">Welcome to <button class="btn btn-light">Lighthouse<img src="/images/icon.png" width="30"/></button>, a simple tool to look up and test domain configuration to ensure your link lands to the right mobile app.</p>
             </div>
             <div class="mb-5 col-md-10 col-lg-8 col-xl-7 mb-8 mx-auto">
               <form method="POST" action="">
                 <div class="form-row">
                   <div class="col-12 col-md-9 mb-2 mb-md-0">
-                    <input type="text" name="query" class="form-control form-control-lg" placeholder="https://">
+                    <input type="text" name="query" class="form-control form-control-lg" placeholder="https://" value="#(query)" >
                   </div>
                   <div class="col-12 col-md-3">
                     <button type="submit" class="btn btn-block btn-lg btn-primary">Look up</button>
@@ -20,10 +20,22 @@
                 </div>
               </form>
             </div>
-            <div class="col-xl-8 mx-auto">
+            <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
                 #if(output != nil):
-                    <div class="alert alert-success" role="alert">#(output.message)</div>
-<!--                    <div class="alert alert-warning" role="alert">-->
+                    #if(output.success):
+                    <div class="alert alert-success" role="alert">
+                        <p>#(output.message)</p>
+                        #if(output.bundles != nil):
+                            <ul class="text-left">
+                            #for(bundle in output.bundles):
+                            <li>#(bundle)</li>
+                            #endfor
+                            </ul>
+                        #endif
+                    </div>
+                    #else:
+                    <div class="alert alert-warning" role="alert">#(output.message)</div>
+                    #endif
                 #endif
             </div>
           </div>

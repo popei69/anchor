@@ -1,7 +1,8 @@
 import Vapor
 
 struct Context: Codable {
-    var output: Output
+    var output: Output?
+    var query: String?
 }
 
 /// Register your application's routes here.
@@ -18,7 +19,8 @@ func routes(_ app: Application) throws {
         }
         .flatMapThrowing { try $0.content.decode(Output.self) }
         .flatMap{ output -> EventLoopFuture<View> in
-            return req.view.render("index", Context(output: output))
+            let input = try? req.content.decode(Input.self)
+            return req.view.render("index", Context(output: output, query: input?.query))
         }
     }
     
