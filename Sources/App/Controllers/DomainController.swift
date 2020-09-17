@@ -76,7 +76,9 @@ struct DomainController: RouteCollection {
         return handle(input.query, eventLoop: req.eventLoop)
             .map{ domain -> Output in
                 let bundles = domain.applinks.details.map { $0.appId }
-                return Output(success: true, message: domain.outputMessage, bundles: bundles)
+                let output = Output(success: true, message: domain.outputMessage, bundles: bundles)
+//                output.supportedBundles = domain.supportedApps(input.query)
+                return output
             }
             .flatMapErrorThrowing { error -> Output in 
                 return Output(success: false, message: error.outputMessage)
@@ -84,7 +86,6 @@ struct DomainController: RouteCollection {
     }
     
     func render(_ req: Request) -> EventLoopFuture<View> {
-        
         do {
             return try parse(req)
                 .flatMap { req.view.render("index", $0) }
@@ -92,68 +93,5 @@ struct DomainController: RouteCollection {
             let output = Output(success: false, message: error.outputMessage)
             return req.view.render("index", output)
         }   
-    }
-}
-
-struct Input: Content {
-    let query: String
-}
-
-struct Output: Content {
-    let success: Bool
-    let message: String
-    let bundles: [String]?
-}
-
-extension Output {
-    init(success: Bool, message: String) {
-        self.init(success: success, message: message, bundles: nil)
-    }
-}
-
-extension Domain {
-    var outputMessage: String {
-        let appsCount = applinks.details.count
-        
-        if appsCount == 0 {
-            return "The domain is configured but no app listed? 🤔"
-        }
-        
-        var content = ""
-        if appsCount == 1 {
-            content = "1 app"
-        } else {
-            content = "\(appsCount) apps"
-        }
-        
-        return "\(content) are associated to this domain ✌️"
-    }
-}
-
-extension Error {
-    
-    var outputMessage: String {
-        if let formatError = self as? UrlFormatError {
-            
-            switch formatError {
-            case .emptyUrl:
-                return "The url seems empty 🤷‍♂️"
-            case .noValidHost:
-                return "The host doesn't seem valid 🤷‍♂️"
-            }
-        }
-        
-        if let networkError = self as? NSError {
-            
-            switch networkError.code {
-            case 4864: // "The given data was not valid JSON."
-                return "It seems the host doesn't have valid content 🚧"
-            case -1003:
-                return networkError.localizedDescription + " 🚧"
-            default:
-                break
-            }
-        }
-        return "I'm not sure what happened 🤔, can you try again?"
     }
 }

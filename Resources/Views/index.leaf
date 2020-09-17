@@ -32,6 +32,13 @@
                             #endfor
                             </ul>
                         #endif
+                        #if(output.supportedBundles != nil):
+                            <ul class="text-left">
+                            #for(value in output.supportedBundles):
+                            <li>#(value)</li>
+                            #endfor
+                            </ul>
+                        #endif
                     </div>
                     #else:
                     <div class="alert alert-warning" role="alert">#(output.message)</div>
